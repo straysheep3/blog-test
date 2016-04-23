@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : page_title %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <div class="row expanded">
+      <div id="header" class="small-12 columns">
+        <%= render "shared/header" %>
+      </div>
+      <!-- /#header -->
+
+      <div id="content" class="small-8 columns">
+        <% if flash.notice %>
+          <p class="callout"><%= flash.notice %></p>
+        <% end %>
+        <%= yield %>
+      </div>
+      <!-- /#content -->
+
+      <div id="sidebar" class="small-4 columns">
+        <%= render "shared/sidebar" %>
+      </div>
+      <!-- /#sidebar -->
+
+      <div id="footer" class="small-12 columns">
+        <%= render "shared/footer" %>
+      </div>
+      <!-- /#footer -->
+    </div>
+    <!-- /.row -->
+
+  </body>
+</html>
