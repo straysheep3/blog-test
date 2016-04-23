@@ -1,8 +1,5 @@
 class Member < ActiveRecord::Base
-  validates :number, presence: true,
-    numericality: { only_integer: true,
-      greater_than: 0, less_than: 100, allow_blank: ture },
-    uniqueness: true
+  validates :number, presence: true
   class << self
     def search(query)
       rel = order("number")
