@@ -1,12 +1,12 @@
 class Member < ActiveRecord::Base
   include EmailAddressChecker
-  
+
   validates :number, presence: true,
     numericality: { only_integer: true,
-      greater_than: 0, less_than: 100, allow_blank: ture },
+      greater_than: 0, less_than: 100, allow_blank: true },
     uniqueness: true
 
-  validates :name, presence: ture,
+  validates :name, presence: true,
     format: { with: /\A[A-Za-z]\w*\z/, allow_blank: true },
     length: { minimum: 2, maximum: 20, allow_blank: true },
     uniqueness: { case_sensitive: false }
@@ -16,7 +16,7 @@ class Member < ActiveRecord::Base
   validate :check_email
 
   private
-  def method_name
+  def check_email
     if email.present?
       errors.add(:email, :invalid) unless well_formed_as_email_address(email)
     end
