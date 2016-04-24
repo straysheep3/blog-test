@@ -49,3 +49,7 @@ group :development do
 end
 
 gem 'awesome_print'
+
+group :test do
+  gem 'factory_girl_rails'
+end
