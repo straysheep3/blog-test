@@ -24,4 +24,28 @@ class ArticleTest < ActiveSupport::TestCase
     assert article.invalid?
     assert article.errors.include?(:expired_at)
   end
+  # no_expirationがオンならexpired_atを使わない
+  test "no_expiration" do
+    article = FactoryGirl.build(:article)
+    article.no_expiration = true
+    assert article.valid?
+    assert_nil article.expired_at
+  end
+  # openスコープのチェック
+  test "open" do
+    article1 = FactoryGirl.create(:article, title: "現在",
+      released_at: 1.day.ago, expired_at: 1.day.from_now)
+    article2 = FactoryGirl.create(:article, title: "過去",
+      released_at: 2.days.ago, expired_at: 1.day.ago)
+    article3 = FactoryGirl.create(:article, title: "未来",
+      released_at: 1.day.from_now, expired_at: 2.days.from_now)
+    article4 = FactoryGirl.create(:article, title: "終了日なし",
+      released_at: 1.day.ago, expired_at: nil)
+
+    articles = Article.open
+    assert_includes articles, article1, "現在の記事が含まれる"
+    refute_includes articles, article2, "過去の記事は含まれない"
+    refute_includes articles, article3, "未来の記事は含まれない"
+    assert_includes articles, article4, "expiredがnilの場合"
+  end
 end

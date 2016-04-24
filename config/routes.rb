@@ -8,8 +8,8 @@ Rails.application.routes.draw do
    get 'lesson/:action(/:name)' => 'lesson'
    resources :members do
      collection { get "search"}
-     resources :articles
    end
+   resources :articles
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
